@@ -6,7 +6,7 @@ baseURL = "https://example.com"
 theme = 'hugo-bearblog'
 
 # Basic metadata configuration for your blog.
-title = "Gustavo Grieco CV"
+title = "Gustavo Grieco CV/Résumé"
 author = "Gustavo Grieco"
 copyright = "Copyright © 2025, Gustavo Grieco."
 languageCode = "en-US"
