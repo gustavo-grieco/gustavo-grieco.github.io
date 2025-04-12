@@ -10,11 +10,11 @@ Only a small part of the audits where I was involved was published. This is the 
 * Reviewed all the major components:
   - Nitro/ArbOS ([1](https://github.com/trailofbits/publications/blob/master/reviews/2024-04-offchain-arbos-30-nitro-upgrade-securityreview.pdf), [2](https://github.com/trailofbits/publications/blob/master/reviews/2024-04-offchain-arbos-31-securityreview.pdf), [3](https://github.com/trailofbits/publications/blob/master/reviews/2024-10-30-Offchain-NitroContractswithBoLD-securityreview.pdf), [4](https://github.com/trailofbits/publications/blob/master/reviews/2025-03-offchain-geth-14.4-securityreview.pdf))
 
-  - Stylus ([1](https://github.com/trailofbits/publications/blob/master/reviews/2024-09-offchain-stylus-securityreview.pdf) [2](https://github.com/trailofbits/publications/blob/master/reviews/2024-10-offchain-stylus-emergency-fixes-securityreview.pdf))
+  - Stylus ([1](https://github.com/trailofbits/publications/blob/master/reviews/2024-09-offchain-stylus-securityreview.pdf), [2](https://github.com/trailofbits/publications/blob/master/reviews/2024-10-offchain-stylus-emergency-fixes-securityreview.pdf))
 
   - BoLD ([1](https://github.com/trailofbits/publications/blob/master/reviews/2024-06-offchain-labs-bold-dac-rewards-updates-securityreview.pdf), [2](https://github.com/trailofbits/publications/blob/master/reviews/2024-10-offchain-bold-optimized-history-commit-securityreview.pdf), [3](https://github.com/trailofbits/publications/blob/master/reviews/2024-12-offchain-boldfixes-securityreview.pdf))
 
-  - Bridge ([1](https://github.com/trailofbits/publications/blob/master/reviews/2023-09-offchain-labs-custom-fee-token-securityreview.pdf) [2](https://github.com/trailofbits/publications/blob/master/reviews/2024-08-offchainlabs-usdc-custom-gateway-securityreview.pdf), [3](https://github.com/trailofbits/publications/blob/master/reviews/2025-03-offchain-custom-fee-erc20-bridge-securityreview.pdf), [4](https://github.com/trailofbits/publications/blob/master/reviews/2025-03-offchain-custom-fee-token-exchange-rate-securityreview.pdf))
+  - Bridge ([1](https://github.com/trailofbits/publications/blob/master/reviews/2023-09-offchain-labs-custom-fee-token-securityreview.pdf), [2](https://github.com/trailofbits/publications/blob/master/reviews/2024-08-offchainlabs-usdc-custom-gateway-securityreview.pdf), [3](https://github.com/trailofbits/publications/blob/master/reviews/2025-03-offchain-custom-fee-erc20-bridge-securityreview.pdf), [4](https://github.com/trailofbits/publications/blob/master/reviews/2025-03-offchain-custom-fee-token-exchange-rate-securityreview.pdf))
 
   - Timeboost ([1](https://github.com/trailofbits/publications/blob/master/reviews/2024-08-offchainlabs-timeboost-auction-contracts-securityreview.pdf))
 

@@ -28,12 +28,15 @@ I'm part of the [ScummVM](https://www.scummvm.org/) team, volunteering as the ma
 Point and click game engine developed by [Brooklyn Multimedia](https://www.mobygames.com/company/2861/brooklyn-multimedia/) for a single game:
 * [Private Eye (1996)](https://www.mobygames.com/game/7117/private-eye/)
 
+![private eye screenshot 1](https://www.scummvm.org/data/screenshots/private/private-eye/private-eye_win_en_1_1_full.png "350px") ![private eye screenshot 2](https://www.scummvm.org/data/screenshots/private/private-eye/private-eye_win_en_1_4_full.png "350px")
+
 ### Hypno engine
 Game engine developed by Hypnotix used for point and click and rail shooters:
 * [Wetlands (1995)](https://www.mobygames.com/game/862/wetlands/)
 * [Marvel Comics Spider-Man: The Sinister Six (1996)](https://www.mobygames.com/game/34907/marvel-comics-spider-man-the-sinister-six/)
 * [Soldier Boyz (1997)](https://www.mobygames.com/game/8383/soldier-boyz/)
 
+![wetlands screenshot](https://www.scummvm.org/data/screenshots/hypno/wetlands/wetlands_dos_en_1_2_full.png "350px") ![spider man sinister six screenshot](https://www.scummvm.org/data/screenshots/hypno/sinistersix/sinistersix_dos_de_1_5_full.png "350px")
 
 ### Freescape engine
 One of the first 3D game engines developed by Incentive Software for a number of games:
@@ -42,3 +45,6 @@ One of the first 3D game engines developed by Incentive Software for a number of
 * [Total Eclipse (1988)](https://www.mobygames.com/game/6712/total-eclipse/) / [Total Eclipse 2 (1989)](https://www.mobygames.com/game/71411/total-eclipse-special-edition/)
 *  [Castle Master (1990)](https://www.mobygames.com/game/2155/castle-master/) / [Castle Master 2 (1990)](https://www.mobygames.com/game/2169/castle-master-castle-master-ii-the-crypt/)
 * [3D Construction Kit / Virtual Reality Kit (1991)](https://www.mobygames.com/game/391/virtual-reality-studio/)
+
+![total eclipse screenshot](https://www.scummvm.org/data/screenshots/freescape/totaleclipse/totaleclipse_dos_en_1_2_full.png "350px") ![castle master screenshot](https://www.scummvm.org/data/screenshots/freescape/castlemaster/castlemaster_dos_en_1_1_full.png "350px")
+
