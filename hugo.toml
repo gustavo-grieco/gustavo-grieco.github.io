@@ -1,0 +1,27 @@
+# Base URL used when generating links to your pages
+# Set to the URL for your site
+baseURL = "https://example.com"
+
+# The name of this wonderful theme ;-).
+theme = 'hugo-bearblog'
+
+# Basic metadata configuration for your blog.
+title = "Gustavo Grieco CV"
+author = "Gustavo Grieco"
+copyright = "Copyright © 2025, Gustavo Grieco."
+languageCode = "en-US"
+
+# Generate a nice robots.txt for SEO
+enableRobotsTXT = true
+
+disableKinds = ["taxonomy"]
+
+[params]
+  # The "description" of your website. This is used in the meta data of your generated html.
+  description = "Gustavo Grieco"
+  hideMadeWithLine = true
+
+[markup]
+    [markup.goldmark]
+        [markup.goldmark.renderer]
+            hardWraps = true
