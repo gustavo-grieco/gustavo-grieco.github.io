@@ -12,6 +12,8 @@ Worked on some of the most influential smart contract fuzzers for EVM:
 * Led the development of [echidna](https://github.com/crytic/echidna).
 * Helped a bit with [medusa](https://github.com/crytic/medusa).
 
+![echidna screenshot](https://i.imgur.com/saFWti4.png "350px")
+
 ## Old
 
 * Led the development of [QuickFuzz](https://github.com/CIFASIS/QuickFuzz)
@@ -19,6 +21,8 @@ Worked on some of the most influential smart contract fuzzers for EVM:
 # Fun Stuff
 
 I'm a detective-story geek who created [mystery-o-matic.com](https://mystery-o-matic.com), a website where you can solve a daily murder mystery in 5 minutes. All [the code and website](https://github.com/mystery-o-matic/mystery-o-matic.github.io/) are open-source!
+
+![mystery-o-matic screenshot](https://i.imgur.com/dMmUoeg.png "350px")
 
 ## Retro gaming
 
