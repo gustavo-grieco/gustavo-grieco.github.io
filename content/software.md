@@ -10,7 +10,7 @@ menu = "main"
 Worked on some of the most influential smart contract fuzzers for EVM:
 
 * Led the development of [echidna](https://github.com/crytic/echidna).
-* Helped a bit with [medusa](https://github.com/crytic/medusa).
+* Provided assistance on the [medusa](https://github.com/crytic/medusa) development.
 
 ![echidna screenshot](https://i.imgur.com/saFWti4.png "350px")
 

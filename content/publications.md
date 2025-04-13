@@ -6,10 +6,12 @@ menu = "main"
 ## Most important academic papers
 
 * [Slither: A Static Analysis Framework for Smart Contracts](https://arxiv.org/abs/1908.09878) (Josselin Feist, **Gustavo Grieco**, Alex Groce)
-* [Manticore: A User-Friendly Symbolic Execution Framework for Binaries and Smart Contracts](https://arxiv.org/abs/1907.03890)
+
+* [Manticore: A User-Friendly Symbolic Execution Framework for Binaries and Smart Contracts](https://arxiv.org/abs/1907.03890) (Mark Mossberg, Felipe Manzano, Eric Hennenfent, Alex Groce, **Gustavo Grieco**, Josselin Feist)
+
 * [SMARTIAN: Enhancing Smart Contract Fuzzing with Static and Dynamic Data-Flow Analyses](https://islab-sogang.github.io/data/ase2021.pdf) (Jaeseung Choi, Doyeon Kim, Soomin Kim, **Gustavo Grieco**, Alex Groce, S. Cha)
 
-* [Optimizing Seed Selection for Fuzzing](https://www.usenix.org/system/files/conference/usenixsecurity14/sec14-paper-rebert.pdf)
+* [Optimizing Seed Selection for Fuzzing](https://www.usenix.org/system/files/conference/usenixsecurity14/sec14-paper-rebert.pdf) (Alexandre Rebert, Sang Kil Cha, Thanassis Avgerinos, Jonathan Foote, David Warren, **Gustavo Grieco**, David Brumley)
 
 * [Undangle: early detection of dangling pointers in use-after-free and double-free vulnerabilities](https://software.imdea.org/~juanca/papers/undangle_issta12_av.pdf)
   (Juan Caballero, **Gustavo Grieco**, Mark Marron, Antonio Nappa)
