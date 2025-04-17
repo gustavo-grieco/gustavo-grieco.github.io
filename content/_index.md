@@ -2,7 +2,9 @@
 title = 'My experience'
 +++
 
-Hello stranger!, I'm Gustavo Grieco, a freelancer security researcher.
+Hello stranger!, I'm Gustavo Grieco, a freelancer security researcher focus on blockchain vulnerabilities and developer of automatic tools (e.g. fuzzers). Previously working at [Trail of Bits](https://www.trailofbits.com/).
+
+Also tech consultant and stakeholder of [Earthical 🌱](https://www.earthicalinnovations.com/).
 
 ## Experience
 
