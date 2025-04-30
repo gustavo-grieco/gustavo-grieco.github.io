@@ -12,11 +12,14 @@ Worked on some of the most influential smart contract fuzzers for EVM:
 * Led the development of [echidna](https://github.com/crytic/echidna).
 * Provided assistance on the [medusa](https://github.com/crytic/medusa) development.
 
-![echidna screenshot](https://i.imgur.com/saFWti4.png "350px")
+![echidna screenshot](https://i.imgur.com/saFWti4.png "300px")
+
+Also have some experience with symbolic execution, adding [small features and fixing bugs in Manticore](https://github.com/trailofbits/manticore/pulls?q=is%3Apr+author%3Agustavo-grieco).
 
 ## Old
 
 * Led the development of [QuickFuzz](https://github.com/CIFASIS/QuickFuzz)
+* Created and developed [VDiscover](https://github.com/CIFASIS/VDiscover).
 
 # Fun Stuff
 
