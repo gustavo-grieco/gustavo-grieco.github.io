@@ -8,7 +8,9 @@ Also tech consultant and stakeholder of [Earthical 🌱](https://www.earthicalin
 
 ## Experience
 
-* Security Engineer (from junior to principal) at [Trail of Bits](https://www.trailofbits.com/) (~8 years): specialized on blockchain audits (EVM, Cosmos-SDK), fuzzing, tool development.
+* Freelance security researcher (since April 2025)
+
+* Security Engineer (from Junior to Principal) at [Trail of Bits](https://www.trailofbits.com/) from September 2017 to April 2025 (~8 years): specialized on blockchain audits (Solidity, EVM, Cosmos-SDK), fuzzing, tool development.
 
 * Phd student at [CIFASIS (CONICET-UNR)](https://www.cifasis-conicet.gov.ar) Apr 2013 - Jul 2018 (~5 years): my thesis was "Vulnerability detection in software using Machine Learning".
 
