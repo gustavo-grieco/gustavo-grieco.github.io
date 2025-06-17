@@ -7,6 +7,12 @@ menu = "main"
 
 ## Recent
 
+Working on a prototype for usig LLMs for automatic exploit generation in EVM:
+
+* [quimera](https://github.com/gustavo-grieco/quimera): data-driven exploit generation for Ethereum smart contracts using LLMs and Foundry.
+
+![quimera screenshot](https://i.imgur.com/kZZiNTr.png "300px")
+
 Worked on some of the most influential smart contract fuzzers for EVM:
 
 * Led the development of [echidna](https://github.com/crytic/echidna).
@@ -24,8 +30,6 @@ Also have some experience with symbolic execution, adding [small features and fi
 # Fun Stuff
 
 I'm a detective-story geek who created [mystery-o-matic.com](https://mystery-o-matic.com), a website where you can solve a daily murder mystery in 5 minutes. All [the code and website](https://github.com/mystery-o-matic/mystery-o-matic.github.io/) are open-source!
-
-![mystery-o-matic screenshot](https://i.imgur.com/dMmUoeg.png "350px")
 
 ## Retro gaming
 
