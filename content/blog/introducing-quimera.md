@@ -59,14 +59,14 @@ Although Quimera was originally built to test already deployed contracts, **it c
 ```
 In local mode, Quimera will use this test as a starting point. The developer simply needs to set up the contracts and define any relevant constraints to ensure the outcome makes sense. This makes Quimera a flexible tool, not only for reproducing real-world exploits but also for helping developers validate their code during early stages of development.
 
-### Preliminary Results (So Far)
+### Positive Results (So Far)
 
 Before diving into some results, it’s important to clarify a methodological concern: closed-source LLMs are trained on massive datasets, which may include known exploits, writeups, or post-mortems of the vulnerabilities we are testing. However, based on my observations, the iterative behavior exhibited during exploit generation doesn’t align with simple retrieval or “memoized” outputs. Instead, it appears to be a grade of genuine reasoning through each step.
 
 In any case, let's start the positive results, a list of known exploits that I was able to reproduce after a few days of playing with the tool:
 
-| Exploit   | Complexity | Comments |
-|-----------|------------|----------|
+| Original Exploit | Complexity | Comments |
+|------------------|------------|----------|
 |[APEMAGA](https://github.com/SunWeb3Sec/DeFiHackLabs/blob/dc2cf9e53e9ccaf2eaf9806bad7cd914edefb41b/src/test/2024-06/APEMAGA_exp.sol#L23) | Low    | Only one step needed.|
 |[VISOR](https://github.com/SunWeb3Sec/DeFiHackLabs/blob/34cce572d25175ca915445f2ce7f7fbbb7cb593b/src/test/2021-12/Visor_exp.sol#L10)     | Low    | A few steps needed to build the WETH conversion calls, but overall the root cause is identified quickly. |
 | [FIRE](https://github.com/SunWeb3Sec/DeFiHackLabs/blob/b3738a7fdffa4b0fc5b34237e70eec2890e54878/src/test/2024-10/FireToken_exp.sol)     | Medium | It will first build the sequence of calls to exploit it, and then slowly adjust the amounts until profit is found. |
@@ -87,11 +87,14 @@ This is where the model attempts to fix a specific issue (e.g., a revert caused 
 
 Once the model finds some code that executes without errors and looks like a potential exploit, it enters a phase where it needs to optimize the result to actually reach the final goal (e.g., achieving profit after repaying a flash loan). The model does an “ok-ish” job here: it tends to iterate slowly by tweaking one parameter at a time and observing the effects. For example, it might adjust a value by 0.01 ETH in each step, when a tenfold increase would be more appropriate. Still, despite the inefficiencies, it usually manages to get the job done eventually.
 
+### Challenges
+
 I also want to talk about negative results, as they’re crucial for understanding the limitations of the current approach, and for identifying how it can be improved.
 
 A specific case worth highlighting is [the Alkimiya exploit](https://github.com/SunWeb3Sec/DeFiHackLabs/blob/0022be5895029e44a88290cf699ea09c908fcd17/src/test/2025-03/Alkimiya_io_exp.sol). This exploit was chosen for reproduction because it strikes a balance: it's neither too easy nor impossibly complex, but it *does* require a very precise sequence of steps to replicate. It’s also relatively recent, only a few months old.
 In theory, Gemini shouldn’t have prior knowledge of this exploit, since [its knowledge cutoff is January 2025](https://ai.google.dev/gemini-api/docs/models#gemini-2.5-pro). Directly asking about it produces hallucinated technical details that are not even remotely close to the real ones, so we’re in the clear regarding contamination from training data.
-For this small-scale experiment, I ran around 20 iterations in Quimera to see if it could reach the exploit condition. While the model didn’t fully succeed (i.e., it didn’t discover the exploit in a way that results in profit), **it was still able to reproduce most of the steps, including identifying the root cause**. You can see a snapshot of the process here:
+
+For this small-scale experiment, I ran around 20 iterations in Quimera to see if it could reach the exploit condition. While **the model didn’t fully succeed** (i.e., it didn’t discover the exploit in a way that results in profit), **it was still able to reproduce most of the steps, including identifying the root cause**. You can see a snapshot of the process here:
 
 ![Quimera attacking Alkymiya](https://i.imgur.com/ekoZwMj.gif "400px")
 
@@ -107,8 +110,8 @@ That said, Foundry traces still provided useful insights for understanding block
 
 Besides keep trying to find new exploits to reproduce, I want to test some other ideas:
 
-* Better integration with a planing agent.
+* Better integration with a planning agent.
 * Allow the tool to use fuzzing tools or even symbolic execution in some limited capacity to help it to reach an exploit condition.
-* Turn the DefiHack repository into a library of past exploits for Quimera to browse.
+* Turn the [DefiHack repository](https://github.com/SunWeb3Sec/DeFiHackLabs) into a library of past exploits for Quimera to browse.
 
 As with many trends in software, there’s always a chance that this kind of application [never moves beyond the proof-of-concept stage](https://www.gartner.com/en/newsroom/press-releases/2024-07-29-gartner-predicts-30-percent-of-generative-ai-projects-will-be-abandoned-after-proof-of-concept-by-end-of-2025). Still, I’m hopeful, and I plan to keep working on it to help uncover what these models are truly capable of.
