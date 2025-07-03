@@ -53,7 +53,7 @@ Although Quimera was originally built to test already deployed contracts, **it c
     IWETH public WETH = new MockToken();
     address internal user1 = address(0x123);
     address internal user2 = address(0x456);
-    function setUp() public { … }
+    function setUp() public { ... }
     //$executeExploitCode
 }
 ```
@@ -99,10 +99,16 @@ For this small-scale experiment, I ran around 20 iterations in Quimera to see if
 
 There are several factors that contributed to the failure in producing a working exploit:
 
-This exploit turned out to be harder than expected, not just because of the code complexity or the sequence of required function calls, but also because it doesn’t emit strong profit signals during the iterative reproduction process. The model ends up stuck on a plateau, trying different actions, but none of them lead to any meaningful change in profit. This lack of a signal makes it very hard to determine a productive direction to explore. This contrasts with other successful exploit reproductions, where either the profit was easily achieved after a few tweaks, or the model could slowly iterate toward a positive outcome.
+This exploit turned out to be **harder than expected**, not just because of the code complexity or the sequence of required function calls, but also because **it doesn’t emit strong profit signals during the iterative reproduction process**. The model ends up stuck on a plateau, trying different actions, but none of them lead to any meaningful change in profit. This lack of a signal makes it **very hard to determine a productive direction to explore**. This contrasts with other successful exploit reproductions, where either the profit was easily achieved after a few tweaks, or the model could slowly iterate toward a positive outcome.
 
 That said, Foundry traces still provided useful insights for understanding blockers and dead ends.
 
 ### Future Work
+
+Besides keep trying to find new exploits to reproduce, I want to test some other ideas:
+
+* Better integration with a planing agent.
+* Allow the tool to use fuzzing tools or even symbolic execution in some limited capacity to help it to reach an exploit condition.
+* Turn the DefiHack repository into a library of past exploits for Quimera to browse.
 
 As with many trends in software, there’s always a chance that this kind of application [never moves beyond the proof-of-concept stage](https://www.gartner.com/en/newsroom/press-releases/2024-07-29-gartner-predicts-30-percent-of-generative-ai-projects-will-be-abandoned-after-proof-of-concept-by-end-of-2025). Still, I’m hopeful, and I plan to keep working on it to help uncover what these models are truly capable of.
