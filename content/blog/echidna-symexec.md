@@ -106,10 +106,7 @@ We also wanted to highlight that trying to verify code with an unbounded loop, i
 This mode is kind of a new thing for blockchain. This mode combines traditional fuzzing and symbolic execution to try to discover new inputs that trigger assertion failures, inspired by seminal research such as [Driller (2016)](https://sites.cs.ucsb.edu/~vigna/publications/2016_NDSS_Driller.pdf). 
 Typically, FV tools will work from the deployment state of a contract and try to do a number of symbolic execution transactions in order to incrementally reach deeper and deeper states:
 
-
-  
-[a]
-
+![imaga3](https://github.com/user-attachments/assets/a2944ae7-0b52-4802-b1db-a247419f57a3 "400px")
 
 The immediate issue with this approach is that the number of states tends to grow for each symbolic transaction, making each new set of constraints harder and harder to solve. FV tools use a number of tricks to reduce the possible transaction combinations (e.g. analyzing how slots are read/write)
 
