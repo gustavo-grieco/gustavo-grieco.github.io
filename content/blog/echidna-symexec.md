@@ -213,7 +213,7 @@ A summary of what happens during this fuzzing campaign:
 6. The fuzzing engine reduced the number of transactions needed for triggering the assertion failure.
 
 
-We just saw a tool that combined all the major [program analysis techniques](​​https://en.wikipedia.org/wiki/Program_analysis) to automatically discover and simplify an input that breaks an invariant, and that's very cool!
+We just saw a tool that combined all the major [program analysis techniques](https://en.wikipedia.org/wiki/Program_analysis) to automatically discover and simplify an input that breaks an invariant, and that's very cool!
 
 
 ## How to Use it?
