@@ -25,5 +25,5 @@ disableKinds = ["taxonomy"]
     [markup.goldmark]
         [markup.goldmark.renderer]
             hardWraps = true
-        style = "github"
-        noClasses = false
+  [markup.highlight]
+    style = "dracula"
