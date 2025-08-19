@@ -41,4 +41,8 @@
       white-space: nowrap;
     }
   }
+  /* Only fix spans that are completely unstyled */
+  pre[style] code span:not([style]) {
+    color: #f8f8f2;             /* inherit pre color for unstyled tokens */
+  }
 </style>
