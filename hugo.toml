@@ -25,5 +25,7 @@ disableKinds = ["taxonomy"]
     [markup.goldmark]
         [markup.goldmark.renderer]
             hardWraps = true
+            unsafe = true # To allow html tags (e.g. details)
+            
   [markup.highlight]
     style = "dracula"
