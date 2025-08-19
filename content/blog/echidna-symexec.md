@@ -106,18 +106,19 @@ We also wanted to highlight that trying to verify code with an unbounded loop, i
 This mode is kind of a new thing for blockchain. This mode combines traditional fuzzing and symbolic execution to try to discover new inputs that trigger assertion failures, inspired by seminal research such as [Driller (2016)](https://sites.cs.ucsb.edu/~vigna/publications/2016_NDSS_Driller.pdf). 
 Typically, FV tools will work from the deployment state of a contract and try to do a number of symbolic execution transactions in order to incrementally reach deeper and deeper states:
 
-![image3](https://github.com/user-attachments/assets/a2944ae7-0b52-4802-b1db-a247419f57a3 "500px")
-
+![image1](https://github.com/user-attachments/assets/212c06f5-c512-4a72-bb58-8f6d57657fac "600px")
 The immediate issue with this approach is that the number of states tends to grow for each symbolic transaction, making each new set of constraints harder and harder to solve. FV tools use a number of tricks to reduce the possible transaction combinations (e.g. analyzing how slots are read/write)
 
 
 On the opposite side, fuzzing tools explore the contract state using concrete transactions. Here we consider a corpus that can contain many transactions, but only show the first one:
 
-![image2](https://github.com/user-attachments/assets/6080e70f-01ab-45bc-9018-8847c1f9a1b4 "400px")
+
+![image3](https://github.com/user-attachments/assets/a2944ae7-0b52-4802-b1db-a247419f57a3 "600px")
 
 The immediate issue with fuzzing is that there is a good amount of "luck" involved in reaching an assertion failure, depending on how the state is built for the current corpus. Echidna's exploration mode using symbolic execution allows combining both approaches relying on the corpus accumulated over time but executing a single symbolic executing transaction on top of it.
 
-![image1](https://github.com/user-attachments/assets/212c06f5-c512-4a72-bb58-8f6d57657fac "400px")
+![image2](https://github.com/user-attachments/assets/6080e70f-01ab-45bc-9018-8847c1f9a1b4 "600px")
+
 
 The effect is executing a potentially more scalable transaction, but we are relying less on luck, since the symbolic executive will explore that particular state more exhaustively. 
 
