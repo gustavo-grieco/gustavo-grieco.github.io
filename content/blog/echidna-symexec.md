@@ -54,35 +54,35 @@ So when a transaction checks out during verification, here's what's happening un
 We decided to do a test drive with a recent campaign from [Algebra](https://github.com/cryptoalgebra/Algebra/tree/integral-v1.2.2/src/core/contracts/test/echidna), which contains a number of stateless tests. All the tests were performed in a MacBook Pro M4 Max using 10 solvers (bitwuzla 0.7):
 
 
-| Test Name | Contract | Result | Approximate time required | Notes |
-| ----- | ----- | ----- | ----- | ----- |
-| checkMulDivRounding | FullMathEchidnaTest | Passed 👍 | Minutes | 5 SMT queries are timing out |
-| checkMulDiv | FullMathEchidnaTest | Passed 👍 | Minutes | 18 SMT queries are timing out |
-| checkMulDivRoundingUp | FullMathEchidnaTest | Passed 👍 | Minutes | 40 SMT queries are timing out |
-| addDelta | LiquidityMathEchidnaTest | Verified ✅ | Seconds |  |
-| checkGetAmountsForLiquidity | LiquidityMathEchidnaTest | Timeout ⏳ | Unknown | Exploration is somehow stuck |
-| checkAdd | LowGasSafeMathEchidnaTest | Verified ✅ | Seconds |  |
-| checkSub | LowGasSafeMathEchidnaTest | Verified ✅ | Seconds |  |
-| checkMul | LowGasSafeMathEchidnaTest | Verified ✅ | Seconds |  |
-| checkAddi | LowGasSafeMathEchidnaTest | Verified ✅ | Seconds |  |
-| checkSubi | LowGasSafeMathEchidnaTest | Verified ✅ | Seconds |  |
-| mulDivRoundingUpInvariants | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes | 7 SMT queries are timing out |
-| getNextSqrtPriceFromInputInvariants | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes | 49 SMT queries are timing out |
-| getNextSqrtPriceFromOutputInvariants | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes | 21 SMT queries are timing out |
-| getNextSqrtPriceFromAmount0RoundingUpInvariants | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes | 12 SMT queries are timing out |
-| getNextSqrtPriceFromAmount1RoundingDownInvariants | TokenDeltaMathEchidnaTest | verified ✅ | Minutes |  |
-| getToken0DeltaInvariants | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes | 18 SMT queries are timing out |
-| getToken0DeltaEquivalency | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes  | 19 SMT queries are timing out |
-| getToken1DeltaInvariants | TokenDeltaMathEchidnaTest | Verified ✅ | Minutes |  |
-| getToken0DeltaSignedInvariants | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes | 2 SMT queries are timing out |
-| getToken1DeltaSignedInvariants | TokenDeltaMathEchidnaTest | Verified ✅ | Seconds |  |
-| getOutOfRangeMintInvariants | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes | 7 SMT queries are timing out |
-| getInRangeMintInvariants | TokenDeltaMathEchidnaTest | Passed 👍 | Minutes | 1 SMT query is timing out |
-| checkDivRoundingUp | UnsafeMathEchidnaTest | Verified ✅ | Seconds |  |
-| checkGetNewPriceAfterInputInvariantOtZ | PriceMovementMathEchidnaTest | Passed 👍 | Hours | 7 SMT queries are timing out |
-| checkMovePriceTowardsTargetInvariants | PriceMovementMathEchidnaTest | Timeout ⏳ | Unknown | At least 24 hours exploring |
-| checkGetNewPriceAfterInputInvariantZtO | PriceMovementMathEchidnaTest | Passed 👍 | Minutes | 35 SMT queries are timing out |
-| leastSignificantBitInvariant | BitMathEchidnaTest | Error ❌ | Seconds | Pow exponent is symbolic, not supported in SMTLIB2 |
+| Test Name | Contract | Result | Time Required | Notes |
+| ----- | :-----: | :-----: | :-----: | ----- |
+| checkMulDivRounding | FullMathEchidnaTest | 👍 | Minutes | 5 SMT queries are timing out |
+| checkMulDiv | FullMathEchidnaTest | 👍 | Minutes | 18 SMT queries are timing out |
+| checkMulDivRoundingUp | FullMathEchidnaTest | 👍 | Minutes | 40 SMT queries are timing out |
+| addDelta | LiquidityMathEchidnaTest | ✅ | Seconds |  |
+| checkGetAmountsForLiquidity | LiquidityMathEchidnaTest | ⏳ | Unknown | Exploration is somehow stuck |
+| checkAdd | LowGasSafeMathEchidnaTest | ✅ | Seconds |  |
+| checkSub | LowGasSafeMathEchidnaTest | ✅ | Seconds |  |
+| checkMul | LowGasSafeMathEchidnaTest | ✅ | Seconds |  |
+| checkAddi | LowGasSafeMathEchidnaTest | ✅ | Seconds |  |
+| checkSubi | LowGasSafeMathEchidnaTest | ✅ | Seconds |  |
+| mulDivRoundingUpInvariants | TokenDeltaMathEchidnaTest | 👍 | Minutes | 7 SMT queries are timing out |
+| getNextSqrtPriceFromInputInvariants | TokenDeltaMathEchidnaTest | 👍 | Minutes | 49 SMT queries are timing out |
+| getNextSqrtPriceFromOutputInvariants | TokenDeltaMathEchidnaTest | 👍 | Minutes | 21 SMT queries are timing out |
+| getNextSqrtPriceFromAmount0RoundingUpInvariants | TokenDeltaMathEchidnaTest | 👍 | Minutes | 12 SMT queries are timing out |
+| getNextSqrtPriceFromAmount1RoundingDownInvariants | TokenDeltaMathEchidnaTest | ✅ | Minutes |  |
+| getToken0DeltaInvariants | TokenDeltaMathEchidnaTest | 👍 | Minutes | 18 SMT queries are timing out |
+| getToken0DeltaEquivalency | TokenDeltaMathEchidnaTest | 👍 | Minutes  | 19 SMT queries are timing out |
+| getToken1DeltaInvariants | TokenDeltaMathEchidnaTest | ✅ | Minutes |  |
+| getToken0DeltaSignedInvariants | TokenDeltaMathEchidnaTest | 👍 | Minutes | 2 SMT queries are timing out |
+| getToken1DeltaSignedInvariants | TokenDeltaMathEchidnaTest | ✅ | Seconds |  |
+| getOutOfRangeMintInvariants | TokenDeltaMathEchidnaTest | 👍 | Minutes | 7 SMT queries are timing out |
+| getInRangeMintInvariants | TokenDeltaMathEchidnaTest | 👍 | Minutes | 1 SMT query is timing out |
+| checkDivRoundingUp | UnsafeMathEchidnaTest | ✅ | Seconds |  |
+| checkGetNewPriceAfterInputInvariantOtZ | PriceMovementMathEchidnaTest | 👍 | Hours | 7 SMT queries are timing out |
+| checkMovePriceTowardsTargetInvariants | PriceMovementMathEchidnaTest | ⏳ | Unknown | At least 24 hours exploring |
+| checkGetNewPriceAfterInputInvariantZtO | PriceMovementMathEchidnaTest | 👍 | Minutes | 35 SMT queries are timing out |
+| leastSignificantBitInvariant | BitMathEchidnaTest | ❌ | Seconds | Pow exponent is symbolic, not supported in SMTLIB2 |
 
 
 As you can see, there is still a long way to go, but it is clear to say symbolic execution tools are starting to mature enough to tackle real code, even if they take a bit of time. Keep in mind that there is a large variance in the time needed, as it ranges from seconds for simple code to hours or days in the most complex cases.
