@@ -87,13 +87,13 @@ We decided to do a test drive with a recent campaign from [Algebra](https://gith
 As you can see, there is still a long way to go, but it is clear to say symbolic execution tools are starting to mature enough to tackle real code, even if they take a bit of time. Keep in mind that there is a large variance in the time needed, as it ranges from seconds for simple code to hours or days in the most complex cases.
 
 
-Is it possible to actually prove most of the invariants that are passing now? There is a good chance to do it when hevm switches to using multiple SMT solvers at same time with tools like ["just solve it"](https://github.com/a16z/jsi) especially for the invariants that have a small number of queries timing out. On top of that, while we found no failing properties during these experiments, there is more than meets the eye: essentially we're able to provide guarantees beyond fuzzing but (without changing the tests in any way) and that’s very valuable.
+Is it possible to actually prove most of the invariants that are passing now? There is a good chance to do it when hevm switches to using multiple SMT solvers at same time with tools like ["just solve it"](https://github.com/a16z/jsi) especially for the invariants that have a small number of queries timing out. On top of that, while we found no failing properties during these experiments, there is more than meets the eye: essentially, we're able to provide guarantees beyond fuzzing without changing the tests in any way, and that’s very valuable.
 
 
 ### Symbolic Execution Disclaimer
 
 
-It is important to have a discussion on what verification means in practice. As you probably know, **formal verification is rarely completely bulletproof: there are a number of shortcomings and limitations that need to be taken into consideration** coming either from theory (e.g. keccak256 hashes are hard to invert) and practice (e.g. SMT solvers can get stuck). That's why it is extremely important that the output of a tool using symbolic executions reflects any potential shortcoming or limitations, as the developer could incorrectly interpret it as "there are no bugs here". There is an interesting discussion in the recent Galois blog post ["What works and doesn't selling formal methods"](https://www.galois.com/articles/what-works-and-doesnt-selling-formal-methods). The [hevm](https://hevm.dev/limitations-and-workarounds.html) and the [halmos](https://github.com/a16z/halmos/wiki/warnings) documentation describe a few things to need to be considered when doing symbolic execution in EVM.
+It is important to have a discussion on what verification means in practice. As you probably know, **formal verification is rarely completely bulletproof: there are a number of shortcomings and limitations that need to be taken into consideration** coming either from theory (e.g. keccak256 hashes are hard to invert) and practice (e.g. SMT solvers can get stuck). That's why it is extremely important that the output of a tool using symbolic executions reflects any potential shortcoming or limitations, as the developer could incorrectly interpret it as "there are no bugs here". There is an interesting discussion in the recent Galois blog post ["What Works and Doesn't Selling Formal Methods"] (https://www.galois.com/articles/what-works-and-doesnt-selling-formal-methods). The [hevm](https://hevm.dev/limitations-and-workarounds.html) and the [halmos](https://github.com/a16z/halmos/wiki/warnings) documentation describe a few things that need to be considered when doing symbolic execution in EVM.
 
 
 We also wanted to highlight that trying to verify code with an unbounded loop, including any function that takes dynamic data structures as inputs (e.g. `bytes`) is not recommended given the current state of tooling. In fact, Echidna will not perform symbolic execution on any function with dynamic data structures as inputs. While there are techniques to concretize the size of them, they need to be used with care to avoid having blind spots in the code verification procedure.
@@ -119,17 +119,19 @@ The immediate issue with fuzzing is that there is a good amount of "luck" involv
 ![image2](https://github.com/user-attachments/assets/6080e70f-01ab-45bc-9018-8847c1f9a1b4 "600px")
 
 
-The effect is executing a potentially more scalable transaction, but we are relying less on luck, since the symbolic executive will explore that particular state more exhaustively. 
+
+The effect is the execution of a potentially more scalable transaction, but we are relying less on luck, since the symbolic executive will explore that particular state more exhaustively. 
 
 
 As an example of the symbolic execution capabilities, let's take a look at this code showing an example of a ERC4626 vault that aggregates other three vaults: 
 
 
-```
+```solidity
 contract MultiVault {
     uint256 internal vaultNumber;
     uint256[3] internal vaultBalance;
     uint256 internal minSupply = 100 ** 18;
+
 
     function sqrt(uint x) internal returns (uint y) {
         uint z = (x + 1) / 2;
@@ -150,14 +152,17 @@ contract MultiVault {
         else 
             normalizedSupply = supply / (10 ** (decimals - 18));
 
+
         require(normalizedSupply > 100 ** 18); // min supply
         vaultBalance[vaultNumber] = sqrt(normalizedSupply);
         vaultNumber++;
     }
 
+
     function previewWithdraw(uint256 assets) external returns (uint256 shares) {
         if (vaultNumber < 3)
             return 0;
+
 
         uint256 totalSupply = assets - (vaultBalance[0] + vaultBalance[1] + vaultBalance[2]);
         assert(totalSupply > 0);
@@ -166,13 +171,13 @@ contract MultiVault {
 ```
 
 
-Note that the process of adding a vault involves calculating the square root using a loop, an operation that symbolic execution tools have a hard time dealing with, since it needs to either unroll the loop a maximum number of times (which we don't know how many since depends on the input) or use a suitable loop invariant (there is [a series of great blog post about loop invariants](https://runtimeverification.com/blog/formally-verifying-loops-part-1) by the Runtime Verification folks).
+Note that the process of adding a vault involves calculating the square root using a loop, an operation that symbolic execution tools have a hard time dealing with, since it needs to either unroll the loop a maximum number of times (which we don't know how many, since it depends on the input) or use a suitable loop invariant (there is [a series of great blog post about loop invariants](https://runtimeverification.com/blog/formally-verifying-loops-part-1) by the Runtime Verification folks).
 
 
 For the actual invariant, we added a simple assertion that states that total supply cannot be empty after a withdrawal. For sure it is not a very interesting invariant, but something simple enough to show how this mode works. To run this, we execute: 
 
 
-```
+```text
 echidna multiVault.sol --test-limit 1000000000000 --sym-exec true 
 ```
 
@@ -180,7 +185,7 @@ echidna multiVault.sol --test-limit 1000000000000 --sym-exec true
 Breaking this assertion is hard for a fuzzer since it needs to create the three vaults and then select the exact amount to withdraw. Typically, if you have to deal with this pattern in the code, you will need to introduce a "ghost variable" that accumulates the normalized balances and make sure the fuzzer can access it (e.g. it should be public). These constraints are easy to solve for the symbolic worker, which finds a counter example that trigger the assertion failure in seconds and minimizes the sequence:
 
 
-```
+```text
  Call sequence:
     addVault(187437275246714327976927632528824801846,17)
     addVault(212381979343444824622226965412329656662,13)
@@ -189,7 +194,7 @@ Breaking this assertion is hard for a fuzzer since it needs to create the three 
 ```
 
 
-It is worth mentioning that in this example, we know that we are going to reach a certain part of the code after three transactions, so we could create a test to simulate these three transactions, perhaps making some of the inputs symbolic. However, it is faster not to do it, as we do not really care about which transactions we used to reach that state, that's the power of random testing!
+It is worth mentioning that, in this example, we know that we are going to reach a certain part of the code after three transactions, so we could create a test to simulate these three transactions, perhaps making some of the inputs symbolic. However, it is faster not to do it, as we do not really care about which transactions we used to reach that state, that's the power of random testing!
 
 
 A summary of what happens during this fuzzing campaign:
@@ -203,7 +208,7 @@ A summary of what happens during this fuzzing campaign:
 6. The fuzzing engine reduced the number of transactions needed for triggering the assertion failure.
 
 
-We just saw a tool that combined all the major [program analysis techniques](​​https://en.wikipedia.org/wiki/Program_analysis) to automatically discover and simplify an input that breaks an invariant and that's very cool!
+We just saw a tool that combined all the major [program analysis techniques](​​https://en.wikipedia.org/wiki/Program_analysis) to automatically discover and simplify an input that breaks an invariant, and that's very cool!
 
 
 ## How to Use it?
@@ -219,14 +224,14 @@ You will need to install a SMT solver. It is strongly recommended to use [bitwuz
 * In exploration mode, we can use a positive number of workers and any number of transactions. 
 
 
-As you can see, this interface is not very intuitive, and it should be eventually replaced by something better like dedicated mode (e.g. `--test-mode verification` or something like that).
+As you can see, this interface is not very intuitive, and it should be eventually replaced by something better, like dedicated mode (e.g. `--test-mode verification` or something like that).
 
 
 Once Echidna starts, we can check the symbolic workers logs to see if some parameters need to be tweaked. It is often useful to use `--format text` to know what the symbolic worker is doing (but the same information is available in the TUI). In particular, there are a few important warnings to pay attention to:
 
 
 * `Partial explored path(s) during symbolic verification of method …: Branches too deep at program counter: …`, then you must increase `symExecMaxExplore`. This is probably the most important symbolic execution parameter, which determines the number of maximum branches explored. Keep in mind that when you use a value such as 20, it means it can reach up to 2**20 states, so go easy on it!
-* `Max Iterations Reached in contract: …` then you must increase `symExecMaxIters` : this parameter signals the symbolic engine how many times the exploration is allowed to visit a given instruction. Typically this applies to loops, however, it can also be useful when the same function is called multiple times or when the solc optimizer reduces the size of the contract finding duplicated snippets of code. 
+* `Max Iterations Reached in contract: …` then you must increase `symExecMaxIters`. This parameter signals the symbolic engine how many times the exploration is allowed to visit a given instruction. Typically this applies to loops, however, it can also be useful when the same function is called multiple times or when the solc optimizer reduces the size of the contract finding duplicated snippets of code. 
 * `Error(s) during symbolic exploration: "Result unknown by SMT solver"` then you need to increase the `symExecTimeout` parameter. By default it is 30 seconds, you can try with something like 120 or even 300.
 
 
@@ -241,7 +246,7 @@ So, when should a smart contract developer or security researcher use symbolic e
 There is still an interesting challenge worth discussing, one related to common patterns often used in fuzzing campaigns. Consider this example:
 
 
-```
+```solidity
 contract TestTarget {
    function callOperation(uint256 p1, uint256 p2, address p3) { 
      Target.operation(p1, p2, p3);
@@ -262,7 +267,7 @@ With the current implementation, symbolic execution is not very effective for th
 A common workaround is to combine these two functions into a single call (e.g., `callOperationAndCheckAsserts`). While this works for experimentation, it’s not an ideal long-term solution. Traditional symbolic execution tools face this challenge all the time when trying to efficiently explore beyond a single transaction.
 
 
-Fortunately, **Slither, our static analysis engine**, can help. It reveals data dependency relationships between functions, such as:
+Fortunately, **[Slither](https://github.com/crytic/slither), our static analysis engine**, can help. It reveals data dependency relationships between functions, such as:
 ```
 "functions_relations": {
         "TestTarget": {
@@ -285,7 +290,7 @@ This information allows us to identify meaningful chains of transactions for sym
 It’s important to clearly show users the results of symbolic execution, even when no counterexamples are found or when some states remain unexplored. One interesting proposal is to extend fuzzing campaign coverage reports beyond concrete execution, adding a layer of *"symbolic coverage"* to highlight which lines were reached by the symbolic engine. For example, in this case we could mark lines reached symbolically with `s`:
 
 
-```
+```text
 *rs |     function liquidate(address user, uint256 amount) public {
 *rs |         require(amount > 0, "Invalid amount");
     |
@@ -321,7 +326,7 @@ Note that this isn’t a brand-new idea: Halmos recently [introduced support for
 Many smart contract developers use `require` statements at the beginning of a function to define preconditions, especially for given parameters. For example:
 
 
-```
+```solidity
  function f(uint256 x, uint256 y) external {
       require(x <= balance[msg.sender]);
       require(y + 1 >= 0x99);
