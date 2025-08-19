@@ -9,7 +9,7 @@ tags = [
 ]
 +++
 
-In this post, we will see a bit of the new Echidna capabilities using the enhanced symbolic execution from hevm. In a nutshell, **symbolic execution works in the same way as fuzzing, checking whether a program has specific issues, like assertion failures**. However, unlike fuzzing, **it either confirms the program works correctly by showing no paths lead to these issues, or it finds examples that prove such issues exist**. An initial implementation Echidna's symbolic execution capabilities was [added last year](https://github.com/crytic/echidna/pull/1216), but it was recently consolidated after [PR 1349](https://github.com/crytic/echidna/pull/1394) was merged, which implemented symbolic execution in two "flavors": 
+In this post, we will see a bit of the new Echidna capabilities using the enhanced symbolic execution from hevm. In a nutshell, **symbolic execution works in the same way as fuzzing**, checking whether a program has specific issues, like assertion failures. However, unlike fuzzing, **it either confirms the program works correctly by showing no paths lead to these issues, or it finds examples that prove such issues exist**. An initial implementation Echidna's symbolic execution capabilities was [added last year](https://github.com/crytic/echidna/pull/1216), but it was recently consolidated after [PR 1349](https://github.com/crytic/echidna/pull/1394) was merged, which implemented symbolic execution in two *"flavors"*: 
 
 
 * **Verification mode for stateless tests**: This mode aims to prove the absence of bugs, aligning with tools like [hevm](https://hevm.dev/), [Halmos](https://github.com/a16z/halmos), and [Certora](https://www.certora.com/). 
@@ -106,24 +106,25 @@ We also wanted to highlight that trying to verify code with an unbounded loop, i
 This mode is kind of a new thing for blockchain. This mode combines traditional fuzzing and symbolic execution to try to discover new inputs that trigger assertion failures, inspired by seminal research such as [Driller (2016)](https://sites.cs.ucsb.edu/~vigna/publications/2016_NDSS_Driller.pdf). 
 Typically, FV tools will work from the deployment state of a contract and try to do a number of symbolic execution transactions in order to incrementally reach deeper and deeper states:
 
-![imaga3](https://github.com/user-attachments/assets/a2944ae7-0b52-4802-b1db-a247419f57a3 "400px")
+<p align="center">
+![image3](https://github.com/user-attachments/assets/a2944ae7-0b52-4802-b1db-a247419f57a3 "500px")
+</p>
+
 
 The immediate issue with this approach is that the number of states tends to grow for each symbolic transaction, making each new set of constraints harder and harder to solve. FV tools use a number of tricks to reduce the possible transaction combinations (e.g. analyzing how slots are read/write)
 
 
 On the opposite side, fuzzing tools explore the contract state using concrete transactions. Here we consider a corpus that can contain many transactions, but only show the first one:
 
-
-  
-[b]
-
+<p align="center">  
+![image2](https://github.com/user-attachments/assets/6080e70f-01ab-45bc-9018-8847c1f9a1b4 "500px")
+</p>
 
 The immediate issue with fuzzing is that there is a good amount of "luck" involved in reaching an assertion failure, depending on how the state is built for the current corpus. Echidna's exploration mode using symbolic execution allows combining both approaches relying on the corpus accumulated over time but executing a single symbolic executing transaction on top of it.
 
-
-  
-[c]
-
+<p align="center">  
+![image1](https://github.com/user-attachments/assets/212c06f5-c512-4a72-bb58-8f6d57657fac "500px")
+</p>
 
 The effect is executing a potentially more scalable transaction, but we are relying less on luck, since the symbolic executive will explore that particular state more exhaustively. 
 
