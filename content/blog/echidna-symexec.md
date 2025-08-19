@@ -9,7 +9,7 @@ tags = [
 ]
 +++
 
-In this post, we will see a bit of the new Echidna capabilities using the enhanced symbolic execution from hevm. In a nutshell, **symbolic execution works in the same way as fuzzing**, checking whether a program has specific issues, like assertion failures. However, unlike fuzzing, **it either confirms the program works correctly by showing no paths lead to these issues, or it finds examples that prove such issues exist**. An initial implementation Echidna's symbolic execution capabilities was [added last year](https://github.com/crytic/echidna/pull/1216), but it was recently consolidated after [PR 1349](https://github.com/crytic/echidna/pull/1394) was merged, which implemented symbolic execution in two *"flavors"*: 
+In this post, we will see a bit of the new Echidna capabilities using the enhanced symbolic execution from hevm. In a nutshell, **symbolic execution works in the same way as fuzzing, checking whether a program has specific issues, like assertion failures**. However, unlike fuzzing, **it either confirms the program works correctly by showing no paths lead to these issues, or it finds examples that prove such issues exist**. An initial implementation of Echidna's symbolic execution capabilities was [added last year](https://github.com/crytic/echidna/pull/1216), but it was recently consolidated after [PR 1349](https://github.com/crytic/echidna/pull/1394) was merged, which implemented symbolic execution in two "flavors": 
 
 
 * **Verification mode for stateless tests**: This mode aims to prove the absence of bugs, aligning with tools like [hevm](https://hevm.dev/), [Halmos](https://github.com/a16z/halmos), and [Certora](https://www.certora.com/). 
@@ -28,22 +28,22 @@ Before diving deeper, we would like to acknowledge the **hevm team** for their e
 Verification mode mirrors formal verification techniques applied to stateless (or single-transaction) code. In Echidna’s new verification mode, the tool analyzes a contract by first executing its constructor and then symbolically testing each method. This approach is ideal for fully stateless functions (e.g., mathematical logic) but can also be used strategically in stateful code, similar to [Halmos' methodology](https://github.com/a16z/halmos/blob/main/docs/getting-started.md). 
 
 
-When a test is explored using the symbolic engine in verification mode, there a few of possible results:
+When a test is explored using the symbolic engine in verification mode, there a few possible results:
 
 
-* Verified ✅. The code was fully explored, without any issues on the translation, solving. As expected, no counterexamples.
-* Passed  👍. The code was fully explored without detecting any counter examples, but the SMT solver cannot solve some of the queries (e.g. it timed out), so the assertion could still fail.
-* Failed 💥. The exploration revealed a counterexample that was successfully replayed in concrete mode.
-* Error ❌. A bug or a missing feature blocks the exploration or solving of some paths.
-* Timeout ⏳. There are scalability issues preventing the creation of the model to explore all the program paths. 
+* **Verified** ✅ The code was fully explored, without any issues on the translation or during solving. As expected, no counterexamples.
+* **Passed**  👍 The code was fully explored without detecting any counterexamples, but the SMT solver cannot determine the answer to some of the queries (e.g. it timed out), so the assertion could still fail.
+* **Failed** 💥 The exploration revealed a counterexample that was successfully replayed in concrete mode.
+* **Error** ❌ A bug or a missing feature blocks the exploration or solving of some paths.
+* **Timeout** ⏳ There are scalability issues preventing the creation of the model to explore all the program paths. 
 
 
 So when a transaction checks out during verification, here's what's happening under the hood:
 
 
-* **Full Coverage Check**: the tool basically reviewed through every possible path the contract could take after the constructor finishes using a single transaction. If you ever tweak the contract code, this whole check needs to restart from scratch.
-* **No counterexample was found**: your assertions should hold!
-* **External Calls**: If your contract can call arbitrary addresses, we only look at the ones you've actually deployed in your tests. This means we can't catch sneaky reentrancy attacks from "unknown" contracts you haven't tested with. 
+* **Full Coverage Check**: The tool basically reviewed through every possible path the contract could take after the constructor finishes using a single transaction. If you ever tweak the contract code, this whole check needs to restart from scratch.
+* **No counterexample was found**: Your assertions should hold!
+* **External Calls**: If your contract can call arbitrary addresses, we only look at the ones you've actually deployed in your tests. This means we can’t detect potential reentrancy attacks originating from contracts outside the ones you are testing. 
 * **The Fineprint**: All calldata parameters, msg.sender, msg.value, block.timestamp, and block.number are treated as symbolic variables, allowing the analysis to explore all possible values. 
    * The sender addresses are limited to the ones you specified in your test config (like owner and non-owner accounts). If you need to test with other addresses, make sure they're in your config!
    * Transaction value can't go above the maximum specified in your config file.
@@ -52,7 +52,6 @@ So when a transaction checks out during verification, here's what's happening un
 
 
 We decided to do a test drive with a recent campaign from [Algebra](https://github.com/cryptoalgebra/Algebra/tree/integral-v1.2.2/src/core/contracts/test/echidna), which contains a number of stateless tests. All the tests were performed in a MacBook Pro M4 Max using 10 solvers (bitwuzla 0.7):
-
 
 | Test Name | Contract | Result | Time Required | Notes |
 | ----- | :-----: | :-----: | :-----: | ----- |
