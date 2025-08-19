@@ -53,6 +53,10 @@ So when a transaction checks out during verification, here's what's happening un
 
 We decided to do a test drive with a recent campaign from [Algebra](https://github.com/cryptoalgebra/Algebra/tree/integral-v1.2.2/src/core/contracts/test/echidna), which contains a number of stateless tests. All the tests were performed in a MacBook Pro M4 Max using 10 solvers (bitwuzla 0.7):
 
+<details>
+
+<summary>Click me to see results</summary>
+    
 | Test Name | Contract | Result | Time Required | Notes |
 | ----- | :-----: | :-----: | :-----: | ----- |
 | checkMulDivRounding | FullMathEchidnaTest | 👍 | Minutes | 5 SMT queries are timing out |
@@ -82,7 +86,7 @@ We decided to do a test drive with a recent campaign from [Algebra](https://gith
 | checkMovePriceTowardsTargetInvariants | PriceMovementMathEchidnaTest | ⏳ | Unknown | At least 24 hours exploring |
 | checkGetNewPriceAfterInputInvariantZtO | PriceMovementMathEchidnaTest | 👍 | Minutes | 35 SMT queries are timing out |
 | leastSignificantBitInvariant | BitMathEchidnaTest | ❌ | Seconds | Pow exponent is symbolic, not supported in SMTLIB2 |
-
+</details>
 
 As you can see, there is still a long way to go, but it is clear to say symbolic execution tools are starting to mature enough to tackle real code, even if they take a bit of time. Keep in mind that there is a large variance in the time needed, as it ranges from seconds for simple code to hours or days in the most complex cases.
 
@@ -93,7 +97,7 @@ Is it possible to actually prove most of the invariants that are passing now? Th
 ### Symbolic Execution Disclaimer
 
 
-It is important to have a discussion on what verification means in practice. As you probably know, **formal verification is rarely completely bulletproof: there are a number of shortcomings and limitations that need to be taken into consideration** coming either from theory (e.g. keccak256 hashes are hard to invert) and practice (e.g. SMT solvers can get stuck). That's why it is extremely important that the output of a tool using symbolic executions reflects any potential shortcoming or limitations, as the developer could incorrectly interpret it as "there are no bugs here". There is an interesting discussion in the recent Galois blog post ["What Works and Doesn't Selling Formal Methods"] (https://www.galois.com/articles/what-works-and-doesnt-selling-formal-methods). The [hevm](https://hevm.dev/limitations-and-workarounds.html) and the [halmos](https://github.com/a16z/halmos/wiki/warnings) documentation describe a few things that need to be considered when doing symbolic execution in EVM.
+It is important to have a discussion on what verification means in practice. As you probably know, **formal verification is rarely completely bulletproof: there are a number of shortcomings and limitations that need to be taken into consideration** coming either from theory (e.g. keccak256 hashes are hard to invert) and practice (e.g. SMT solvers can get stuck). That's why it is extremely important that the output of a tool using symbolic executions reflects any potential shortcoming or limitations, as the developer could incorrectly interpret it as "there are no bugs here". There is an interesting discussion in the recent Galois blog post ["What Works and Doesn't Selling Formal Methods"](https://www.galois.com/articles/what-works-and-doesnt-selling-formal-methods). The [hevm](https://hevm.dev/limitations-and-workarounds.html) and the [halmos](https://github.com/a16z/halmos/wiki/warnings) documentation describe a few things that need to be considered when doing symbolic execution in EVM.
 
 
 We also wanted to highlight that trying to verify code with an unbounded loop, including any function that takes dynamic data structures as inputs (e.g. `bytes`) is not recommended given the current state of tooling. In fact, Echidna will not perform symbolic execution on any function with dynamic data structures as inputs. While there are techniques to concretize the size of them, they need to be used with care to avoid having blind spots in the code verification procedure.
@@ -106,17 +110,18 @@ This mode is kind of a new thing for blockchain. This mode combines traditional 
 Typically, FV tools will work from the deployment state of a contract and try to do a number of symbolic execution transactions in order to incrementally reach deeper and deeper states:
 
 ![image1](https://github.com/user-attachments/assets/212c06f5-c512-4a72-bb58-8f6d57657fac "600px")
-The immediate issue with this approach is that the number of states tends to grow for each symbolic transaction, making each new set of constraints harder and harder to solve. FV tools use a number of tricks to reduce the possible transaction combinations (e.g. analyzing how slots are read/write)
+
+The immediate issue with this approach is that the number of states tends to grow for each symbolic transaction, making each new set of constraints harder and harder to solve. FV tools use a number of tricks to reduce the possible transaction combinations (e.g. analyzing how slots are read/written)
 
 
-On the opposite side, fuzzing tools explore the contract state using concrete transactions. Here we consider a corpus that can contain many transactions, but only show the first one:
+On the opposite side, fuzzing tools explore the contract state using concrete transactions. Here, we consider a corpus that can contain many transactions, but only show the first one:
 
 
-![image3](https://github.com/user-attachments/assets/a2944ae7-0b52-4802-b1db-a247419f57a3 "600px")
+![image2](https://github.com/user-attachments/assets/a2944ae7-0b52-4802-b1db-a247419f57a3 "600px")
 
 The immediate issue with fuzzing is that there is a good amount of "luck" involved in reaching an assertion failure, depending on how the state is built for the current corpus. Echidna's exploration mode using symbolic execution allows combining both approaches relying on the corpus accumulated over time but executing a single symbolic executing transaction on top of it.
 
-![image2](https://github.com/user-attachments/assets/6080e70f-01ab-45bc-9018-8847c1f9a1b4 "600px")
+![image3](https://github.com/user-attachments/assets/6080e70f-01ab-45bc-9018-8847c1f9a1b4 "700px")
 
 
 
@@ -268,7 +273,7 @@ A common workaround is to combine these two functions into a single call (e.g., 
 
 
 Fortunately, **[Slither](https://github.com/crytic/slither), our static analysis engine**, can help. It reveals data dependency relationships between functions, such as:
-```
+```text
 "functions_relations": {
         "TestTarget": {
             "callOperation(uint256,uint256,address)": {
@@ -334,11 +339,13 @@ Many smart contract developers use `require` statements at the beginning of a fu
   }
 ```
 What if we could extract valid ranges for `x` and `y`, so Echidna knows which inputs are "valid" and can explore contract states more efficiently? **This is actually possible with a bit of symbolic execution**: a basic prototype of automatic bound extraction is [available here](https://github.com/crytic/echidna/pull/1409). You can already inspect the bounds it produces. For example, for the function above, one possible set of extracted constraints could be:
-```
+
+```text
 Constraints resolved:
 arg1 <= 0x100000000
 arg2 >= 0x98
 ```
+
 In this case, one constraint depends on the contract’s state. In this example, Echidna produces a constraint where `balance[msg.sender]` is `0x100000000`.
 
 
