@@ -8,6 +8,8 @@ Also tech consultant and stakeholder of [Earthical 🌱](https://www.earthicalin
 
 ## Experience
 
+* [Elected Audit Committee Technical Expert](https://forum.arbitrum.foundation/t/audit-committee-technical-expert-elections/29474) for the Arbitrum DAO (since July 2025)
+
 * Freelance security researcher (since April 2025)
 
 * Security Engineer (from Junior to Principal) at [Trail of Bits](https://www.trailofbits.com/) from September 2017 to April 2025 (~8 years): specialized on blockchain audits (Solidity, EVM, Cosmos-SDK), fuzzing, tool development.
@@ -18,9 +20,9 @@ Also wrote some software, published some papers and did a number of security aud
 
 ## Current State
 
-* Resting a bit after 8 amazing years working for [Trail of Bits](https://www.trailofbits.com/) but [happy to start discussing](https://forms.gle/V3jt7C2JQgZhoXfe9) freelance projects.
+* Happy to [start discussing](https://forms.gle/V3jt7C2JQgZhoXfe9) freelance blockchain-security projects.
 
-* Volunteering to help [the hevm team](https://github.com/ethereum/hevm) with extensive testing of their symbolic execution engine and some code to improve it.
+* Volunteering to help [the echidna team](https://github.com/crytic/echidna) and [the hevm team](https://github.com/ethereum/hevm) with extensive testing of their symbolic execution engine and some code to improve it.
 
 * Writing a [mystery-o-matic](https://mystery-o-matic.com) puzzle book. [Notify me when it's ready!](https://stats.sender.net/forms/e5yRQR/view)
 
