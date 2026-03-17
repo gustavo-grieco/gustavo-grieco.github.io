@@ -30,4 +30,4 @@ Also wrote some software, published some papers and did a number of security aud
 
 * [Linkedin](https://www.linkedin.com/in/gustavo-g-781b1a1b2/)
 * [Arbitrum Foundation](https://forum.arbitrum.foundation/u/gustavo-grieco/)
-* [Tally profile](https://www.tally.xyz/gov/arbitrum/delegate/0xbb6f6a8af43ea7fe787dff8e79d70f411e217783)
+* [Tally profile](https://www.tally.xyz/gov/arbitrum/delegate/0xef7b13326c7c680735d792b63587096cf1b273aa)
