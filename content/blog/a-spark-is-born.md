@@ -90,7 +90,7 @@ A separate bound catches what monotonicity would miss (monotone but mis-rounded)
 Despite our best efforts, eleven properties stay open, for two reasons. Three `previewSwapExactOut` legs resist the *abstraction*: their round-up (`ceilDiv`) quotes come back `unknown` within the time budget, and we have not pinned down exactly why. Eight fail on *setup*: they deposit through a real `MockERC20` before asserting, and the mock's keccak-mapping balance reads are intractable inside the abstracted arithmetic. Our own relational properties sidestep that wall with a modelling workaround: the symbolic harness deploys [minimal tokens whose `balanceOf` is a single storage slot](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/symbolic/ProveRealPSM3.t.sol#L34) rather than a mapping, so each balance read is one clean symbolic value. **That is sound here because every property reads each token at exactly one holder and never moves tokens**; the deposit-driven tests as written do move them, so they go to the fuzzer.
 
 
-**Result: sixty properties verified, nothing falsified.** Most discharge in about a second, and the whole set runs in about half an hour (`make verify`). In the table below, each property is either ✅ **verified** or ⏳ **out of reach**.
+**Result: sixty properties verified, nothing falsified.** Most discharge in about a second, and the whole set runs in about half an hour. In the table below, each property is either ✅ **verified** or ⏳ **out of reach**.
 
 
 > **Limits**
@@ -198,7 +198,7 @@ The audits picked one invariant for us: re-reading the reports surfaced exactly 
 Building the harness caught a bug of its own: point `setPocket` at an address that already belongs to a liquidity provider and the two become one account: USDC withdrawals turn into no-op self-transfers while the ghost accounting still books the outflow, breaking `invariant_E` (pocket balance == tracked inflows − outflows). A test-setup flaw, not a contract vulnerability, but a genuine result, reported upstream as [sparkdotfi/spark-psm#53](https://github.com/sparkdotfi/spark-psm/issues/53).
 
 
-Each leg of the argument is one command in the repo's Makefile: `make verify`, `make fuzz T=<Contract>`, `make fuzz-invariant`.
+Each leg of the argument is one command in the repo's [Makefile](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/Makefile): `make verify`, `make fuzz T=<Contract>`, `make fuzz-invariant`.
 
 
 **Prove the core; fuzz the rest.** The conversion math is now a set of theorems about the deployed bytecode, everything else is fuzzed on top, and the one property an audit once found broken is an invariant that can't quietly come back. Neither technique reaches that on its own.
