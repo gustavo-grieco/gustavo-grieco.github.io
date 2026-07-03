@@ -20,7 +20,12 @@ Worked on some of the most influential smart contract fuzzers for EVM:
 
 ![echidna screenshot](https://i.imgur.com/saFWti4.png "300px")
 
-Also have some experience with symbolic execution, adding [small features and fixing bugs in Manticore](https://github.com/trailofbits/manticore/pulls?q=is%3Apr+author%3Agustavo-grieco).
+Also have some experience with symbolic execution:
+
+* Regularly contribute [improvements and fixes to hevm](https://github.com/argotorg/hevm/pulls?q=is%3Apr+author%3Agustavo-grieco), the symbolic execution engine for the EVM that powers Echidna.
+* In the past, added [small features and fixed bugs in Manticore](https://github.com/trailofbits/manticore/pulls?q=is%3Apr+author%3Agustavo-grieco).
+
+Recently combined some of these tools (Echidna, hevm and Certora) in a [formal verification effort for the ABDK Math 64.64 library](https://github.com/gustavo-grieco/abdk-math-64.64-verification).
 
 ## Old
 
@@ -58,4 +63,24 @@ One of the first 3D game engines developed by Incentive Software for a number of
 * [3D Construction Kit / Virtual Reality Kit (1991)](https://www.mobygames.com/game/391/virtual-reality-studio/)
 
 ![total eclipse screenshot](https://www.scummvm.org/data/screenshots/freescape/totaleclipse/totaleclipse_dos_en_1_2_full.png "350px") ![castle master screenshot](https://www.scummvm.org/data/screenshots/freescape/castlemaster/castlemaster_dos_en_1_1_full.png "350px")
+
+### Colony engine
+One of the first game engines to offer real-time 3D graphics with free movement, created by [David Alan Smith](https://davidasmith.medium.com/the-colony-a-memoir-d46a0e08ec60) and published by Mindscape for a single game:
+* [The Colony (1988)](https://www.mobygames.com/game/3489/the-colony/)
+
+### EEM engine
+Point and click detective game engine developed by [Stormfront Studios](https://www.mobygames.com/company/395/stormfront-studios/) and published by EA*Kids for two games:
+* [Eagle Eye Mysteries (1993)](https://www.mobygames.com/game/14171/eagle-eye-mysteries/)
+* [Eagle Eye Mysteries in London (1994)](https://www.mobygames.com/game/19256/eagle-eye-mysteries-in-london/)
+
+### SCUMM engine: Rebel Assault games
+Reimplementation of the FMV rail shooters developed by [LucasArts](https://www.mobygames.com/company/72/lucasfilm-games/), as part of the existing SCUMM engine:
+* [Star Wars: Rebel Assault (1993)](https://www.mobygames.com/game/272/star-wars-rebel-assault/)
+* [Star Wars: Rebel Assault II - The Hidden Empire (1995)](https://www.mobygames.com/game/5800/star-wars-rebel-assault-ii-the-hidden-empire/)
+
+## Source code reconstruction
+
+Outside of ScummVM, I completed a full [source code reconstruction](https://github.com/neuromancer/my-teacher-is-an-alien-re) of [Bruce Coville's My Teacher Is an Alien (1997)](https://www.mobygames.com/game/157029/bruce-covilles-my-teacher-is-an-alien/), a point and click adventure developed by [7th Level](https://www.mobygames.com/company/793/7th-level-inc/) and Byron Preiss Multimedia. The reconstructed code is bug-for-bug faithful: it produces code identical to the original at the CPU instruction level when compiled with the same tools, verified using [binary-comp](https://github.com/neuromancer/binary-comp), a tool I created to compare binaries function by function.
+
+![my teacher is an alien screenshot 1](https://github.com/user-attachments/assets/a0ac2b7e-36ea-4e8a-b6ad-d5e4988e2a83 "350px") ![my teacher is an alien screenshot 2](https://github.com/user-attachments/assets/48145419-1bd6-4d46-8938-dbad3834d920 "350px")
 
