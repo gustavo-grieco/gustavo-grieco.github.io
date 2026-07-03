@@ -199,8 +199,4 @@ Each leg of the argument is one command in the repo's Makefile: `make verify`, `
 
 ## Oh, Just One More Thing
 
-If you notice anything in this blog post that is incorrect, imprecise, or potentially misleading, please feel free to [contact me](https://forms.gle/V3jt7C2JQgZhoXfe9) for clarification.
-
-## Acknowledgements
-
-This post was funded by the recent donation round on [Giveth for Echidna](https://giveth.io/project/echidna:-a-fast-smart-contract-fuzzer). Thank you to everyone who contributed; work like this is possible because of you.
+If you notice anything in this blog post that is incorrect, imprecise, or potentially misleading, please feel free to [contact me](https://forms.gle/V3jt7C2JQgZhoXfe9) for clarification. And a thank-you: this post was funded by the recent donation round on [Giveth for Echidna](https://giveth.io/project/echidna:-a-fast-smart-contract-fuzzer); work like this is possible because of everyone who contributed.
