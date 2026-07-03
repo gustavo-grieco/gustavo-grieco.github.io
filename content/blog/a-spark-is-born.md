@@ -11,7 +11,13 @@ tags = [
 ]
 +++
 
-**TL;DR.** We *proved* the core accounting math of [Spark's PSM3](https://docs.spark.fi/dev/savings/spark-psm) (share price, conversions, swap quotes) against the real bytecode: sixty properties, verified for every input up to `uint128`. The proofs run in Echidna's verification mode on top of hevm's arithmetic abstraction, which is still **experimental** code, in review as [argotorg/hevm#1075](https://github.com/argotorg/hevm/pull/1075). All the verification code is in [our spark-psm branch](https://github.com/gustavo-grieco/spark-psm/tree/symbolic-conversion-proofs) if you want to check it. What resisted exact proof got monotonicity and rounding bounds that still rule out the attacks; everything else went to a fuzzing campaign: some 80 hours and roughly 700 million executions against the repo's own fuzz tests and eight stateful invariants. All clean, except one small bug in the invariant harness itself. **Prove the core, fuzz the rest.**
+<div class="tldr">
+
+## TL;DR
+
+We *proved* the core accounting math of [Spark's PSM3](https://docs.spark.fi/dev/savings/spark-psm) (share price, conversions, swap quotes) against the real bytecode: sixty properties, verified for every input up to `uint128`. The proofs run in Echidna's verification mode on top of hevm's arithmetic abstraction, which is still **experimental** code, in review as [argotorg/hevm#1075](https://github.com/argotorg/hevm/pull/1075). All the verification code is in [our spark-psm branch](https://github.com/gustavo-grieco/spark-psm/tree/symbolic-conversion-proofs) if you want to check it. What resisted exact proof got monotonicity and rounding bounds that still rule out the attacks; everything else went to a fuzzing campaign: some 80 hours and roughly 700 million executions against the repo's own fuzz tests and eight stateful invariants. All clean, except one small bug in the invariant harness itself. **Prove the core, fuzz the rest.**
+
+</div>
 
 
 The contract in front of you has cleared three audits, ships a green invariant suite, and has held real money without incident. The easy bugs are long gone, so what do you run *now* to raise confidence beyond "a few billion random inputs didn't break it"? Two techniques answer that, with opposite blind spots. **Fuzzing** runs the real, unmodified contract. It is assumption-free, but it samples; absence of failure is not proof. **Formal verification** proves a property for *all* inputs, but only under a model, and a wrong model proves something about a contract subtly unlike the deployed one. Together, each covers the other: the proof settles the core math for every input; the fuzzer explores what the proof left out and checks that its assumptions didn't define the bug away.

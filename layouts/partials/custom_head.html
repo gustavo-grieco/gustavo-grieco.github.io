@@ -67,6 +67,20 @@
     background-color: transparent;
   }
 
+  /* TL;DR callout box */
+  .tldr {
+    border: 1px solid var(--table-border-color);
+    border-left: 5px solid #f58024;
+    border-radius: 6px;
+    padding: 2px 20px 6px 20px;
+    margin: 1.6em 0;
+    background-color: rgba(128, 128, 128, 0.07);
+  }
+  .tldr h2 {
+    margin-top: 0.7em;
+    font-size: 1.1em;
+  }
+
   /* iOS Safari font boosting inflates random code lines. Chroma emits an
      inline -webkit-text-size-adjust:none, but iOS ignores "none"; only a
      percentage disables the boost, and it must out-rank the inline style. */
