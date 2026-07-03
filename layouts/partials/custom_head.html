@@ -45,4 +45,25 @@
   pre[style] code span:not([style]) {
     color: #f8f8f2;             /* inherit pre color for unstyled tokens */
   }
+
+  /* Code blocks on small screens: scroll INSIDE the pre, not the page.
+     The theme puts overflow-x on .highlight (the light wrapper) but not on
+     the chroma pre, so long lines paint past the dark background and get
+     clipped. Make the pre the scroll container and let it own the box. */
+  pre {
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 12px 15px;
+    border-radius: 3px;
+    -webkit-overflow-scrolling: touch;
+  }
+  pre code {
+    white-space: pre;           /* never wrap code; scroll instead */
+    padding: 0;                 /* the pre owns the padding */
+    background-color: transparent;
+  }
+  .highlight {
+    padding: 0;                 /* chroma pre carries its own dark box */
+    background-color: transparent;
+  }
 </style>
