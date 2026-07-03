@@ -1,6 +1,6 @@
 +++
 title = "Adventures in Automated Smart Contract Testing: A Spark Is Born"
-date = "2026-06-19"
+date = "2026-07-03"
 description = "On already-audited code, prove the core math first and fuzz the rest: verifying a DeFi contract's exact conversion properties against the real bytecode with hevm's arithmetic abstraction, and proving weaker but still-useful properties where the exact ones are out of reach."
 tags = [
   "echidna",
