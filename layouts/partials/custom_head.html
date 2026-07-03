@@ -66,4 +66,16 @@
     padding: 0;                 /* chroma pre carries its own dark box */
     background-color: transparent;
   }
+
+  /* iOS Safari font boosting inflates random code lines. Chroma emits an
+     inline -webkit-text-size-adjust:none, but iOS ignores "none"; only a
+     percentage disables the boost, and it must out-rank the inline style. */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  pre, pre code {
+    -webkit-text-size-adjust: 100% !important;
+    text-size-adjust: 100%;
+  }
 </style>
