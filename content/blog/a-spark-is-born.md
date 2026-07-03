@@ -62,7 +62,7 @@ The trade has a precise soundness contract. **A proof is real:** every fact hold
 Relationships prove orderings, not magnitudes. Exact results come from *cancellation* lemmas tuned to the PSM's **precision scaling**: `x * 1e18 / 1e6` is pinned to `x * 1e12`, a two-step `/1e9 /1e18` folds into one `/1e27`, and one lemma relates two sealed products differing by a constant, enough to prove that a rate move changes the pool's value by *exactly* the sUSDS revaluation.
 
 
-**Most of the math we verify completely, against the repo's own tests.** Each property inherits the contract's *unmodified* `testFuzz_*`; the only addition is one uniform assumption, the abstraction's operand budget:
+Most of the math we verify completely, against the repo's own tests. Each property inherits the contract's *unmodified* `testFuzz_*`; the only addition is one uniform assumption, the abstraction's operand budget:
 
 
 ```solidity
@@ -76,7 +76,7 @@ function prove_convertToAssets_susds(uint256 rate, uint256 amount) public {
 **Spark's own fuzz tests become theorems: exact values, proven for every `uint128` input, against the deployed bytecode**.
 
 
-**Where the exact value is out of reach, a weaker property still rules out the attack.** A few quotes are a `ceilDiv` over a rate-scaled product, or divide by the symbolic pool ratio; there we prove **monotonicity**, the *direction* of the result, which is what an attacker probes:
+Where the exact value is out of reach, a weaker property still rules out the attack. A few quotes are a `ceilDiv` over a rate-scaled product, or divide by the symbolic pool ratio; there we prove **monotonicity**, the *direction* of the result, which is what an attacker probes:
 
 
 - *more in never yields less out*: no underpaying by splitting or reordering a swap;
@@ -87,13 +87,13 @@ function prove_convertToAssets_susds(uint256 rate, uint256 amount) public {
 A separate bound catches what monotonicity would miss (monotone but mis-rounded): round-up and round-down never differ by more than one wei.
 
 
-**And where even that is out of reach, we say so.** Eleven properties stay open, for two reasons. Three `previewSwapExactOut` legs resist the *abstraction*: their round-up (`ceilDiv`) quotes come back `unknown` within the time budget, and we have not pinned down exactly why. Eight fail on *setup*: they deposit through a real `MockERC20` before asserting, and the mock's keccak-mapping balance reads are intractable inside the abstracted arithmetic. Our own relational properties sidestep that wall with a modelling workaround: the symbolic harness deploys [minimal tokens whose `balanceOf` is a single storage slot](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/symbolic/ProveRealPSM3.t.sol#L34) rather than a mapping, so each balance read is one clean symbolic value. That is sound here because every property reads each token at exactly one holder and never moves tokens; the deposit-driven tests as written do move them, so they go to the fuzzer. Naming the gaps is part of the method.
+Despite our best efforts, eleven properties stay open, for two reasons. Three `previewSwapExactOut` legs resist the *abstraction*: their round-up (`ceilDiv`) quotes come back `unknown` within the time budget, and we have not pinned down exactly why. Eight fail on *setup*: they deposit through a real `MockERC20` before asserting, and the mock's keccak-mapping balance reads are intractable inside the abstracted arithmetic. Our own relational properties sidestep that wall with a modelling workaround: the symbolic harness deploys [minimal tokens whose `balanceOf` is a single storage slot](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/symbolic/ProveRealPSM3.t.sol#L34) rather than a mapping, so each balance read is one clean symbolic value. **That is sound here because every property reads each token at exactly one holder and never moves tokens**; the deposit-driven tests as written do move them, so they go to the fuzzer.
 
 
 **Result: sixty properties verified, nothing falsified.** Most discharge in about a second, and the whole set runs in about half an hour (`make verify`). In the table below, each property is either ✅ **verified** or ⏳ **out of reach**.
 
 
-> **Scope: two limits, stated up front.**
+> **Limits**
 >
 > **① Bounded to `uint128`.** The no-overflow facts hold while products fit in 256 bits, so every proof assumes each input (and a few derived sums like `totalAssets()`) is at most `type(uint128).max`. That is about 3×10²⁰ tokens at 18 decimals, far past any real supply, but it is a real bound, so we name it.
 >
@@ -186,16 +186,16 @@ A separate bound catches what monotonicity would miss (monotone but mis-rounded)
 A proof of the stateless math is narrow by design; the fuzzer takes everything around it.
 
 
-**The same properties, on the real arithmetic.** Echidna runs the repo's `testFuzz_*` directly, with real `mul` and `div` on full `uint256`, covering the ⏳ rows and the whole swap/deposit/withdraw *execution* surface, plus nine single-transaction properties of our own (swap value-conservation, both conversion round-trips, preview monotonicity) written for what the unit suite doesn't assert. It also independently checks the proofs: if a lemma were unsound, the prover would still say `verified`, but the fuzzer on the same code would not stay quiet. Across two campaigns (an eight-hour sweep of every stateless target, then a further 24 hours on the surfaces the proofs leave open) that is **over 600 million single-transaction executions with zero falsifications**, exercising the conversion math in both rounding directions.
+The same properties come first, on the real arithmetic: echidna runs the repo's `testFuzz_*` directly, with real `mul` and `div` on full `uint256`, covering the ⏳ rows and the whole swap/deposit/withdraw *execution* surface, plus nine single-transaction properties of our own (swap value-conservation, both conversion round-trips, preview monotonicity) written for what the unit suite doesn't assert. It also independently checks the proofs: if a lemma were unsound, the prover would still say `verified`, but the fuzzer on the same code would not stay quiet. Across two campaigns (an eight-hour sweep of every stateless target, then a further 24 hours on the surfaces the proofs leave open) that is **over 600 million single-transaction executions with zero falsifications**, exercising the conversion math in both rounding directions.
 
 
-**Then the histories a single-transaction proof never sees.** PSM3's real risk is emergent: long sequences of deposits, swaps, withdrawals, and rate updates by many actors. We drive the protocol's own handler suite and check [**eight invariants**](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/invariant/InvariantsEchidna.t.sol) after every step: shares sum to the supply, the pool stays solvent, value is neither created nor destroyed, swaps round in the protocol's favour, and at teardown every position can still be withdrawn in full. That fourth invariant is exactly the end-to-end safety the proofs left open (caveat ②). Two 24-hour campaigns, roughly 90 million transactions in all, and every invariant held.
+Beyond the stateless properties, PSM3's real risk is emergent: long sequences of deposits, swaps, withdrawals, and rate updates by many actors. We drive the protocol's own handler suite and check [**eight invariants**](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/invariant/InvariantsEchidna.t.sol) after every step: shares sum to the supply, the pool stays solvent, value is neither created nor destroyed, swaps round in the protocol's favour, and at teardown every position can still be withdrawn in full. That fourth invariant is exactly the end-to-end safety the proofs left open (caveat ②). Two 24-hour campaigns, roughly 90 million transactions in all, and every invariant held.
 
 
-**The audits picked one invariant for us.** Re-reading the reports surfaced exactly one property the suite didn't already enforce: a Cantina finding where a withdraw could round the **share price** down, diluting LPs. It was fixed years ago, but a fixed bug is exactly what a regression invariant should pin forever. Now it is one: [the share price never falls by more than a rounding wei after any action](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/invariant/InvariantsEchidna.t.sol#L425), with a [companion invariant that the sUSDS rate only accrues upward](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/invariant/InvariantsEchidna.t.sol#L436).
+The audits picked one invariant for us: re-reading the reports surfaced exactly one property the suite didn't already enforce: a Cantina finding where a withdraw could round the **share price** down, diluting LPs. It was fixed years ago, but a fixed bug is exactly what a regression invariant should pin forever. Now it is one: [the share price never falls by more than a rounding wei after any action](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/invariant/InvariantsEchidna.t.sol#L425), with a [companion invariant that the sUSDS rate only accrues upward](https://github.com/gustavo-grieco/spark-psm/blob/symbolic-conversion-proofs/test/invariant/InvariantsEchidna.t.sol#L436).
 
 
-**Building the harness caught a bug of its own.** Point `setPocket` at an address that already belongs to a liquidity provider and the two become one account: USDC withdrawals turn into no-op self-transfers while the ghost accounting still books the outflow, breaking `invariant_E` (pocket balance == tracked inflows − outflows). A test-setup flaw, not a contract vulnerability, but a genuine result, reported upstream as [sparkdotfi/spark-psm#53](https://github.com/sparkdotfi/spark-psm/issues/53).
+Building the harness caught a bug of its own: point `setPocket` at an address that already belongs to a liquidity provider and the two become one account: USDC withdrawals turn into no-op self-transfers while the ghost accounting still books the outflow, breaking `invariant_E` (pocket balance == tracked inflows − outflows). A test-setup flaw, not a contract vulnerability, but a genuine result, reported upstream as [sparkdotfi/spark-psm#53](https://github.com/sparkdotfi/spark-psm/issues/53).
 
 
 Each leg of the argument is one command in the repo's Makefile: `make verify`, `make fuzz T=<Contract>`, `make fuzz-invariant`.
