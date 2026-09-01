@@ -84,3 +84,11 @@ Outside of ScummVM, I completed a full [source code reconstruction](https://gith
 
 ![my teacher is an alien screenshot 1](https://github.com/user-attachments/assets/a0ac2b7e-36ea-4e8a-b6ad-d5e4988e2a83 "350px") ![my teacher is an alien screenshot 2](https://github.com/user-attachments/assets/48145419-1bd6-4d46-8938-dbad3834d920 "350px")
 
+I'm also reconstructing the source of the two [Wing Commander](https://www.mobygames.com/game-group/wing-commander-series) games developed by [Origin Systems](https://en.wikipedia.org/wiki/Origin_Systems), as shipped in *Wing Commander: The Kilrathi Saga (1996)*. Both projects rebuild the original Win32 executables with the era's Microsoft Visual C++ toolchain, and both ship a native SDL2 port for Windows, Linux and macOS that runs on either Kilrathi Saga or original DOS game data, with an optional OpenGL renderer that draws space objects at output resolution:
+
+* [wc1-re](https://github.com/neuromancer/wc1-re): reconstruction of [Wing Commander (1990)](https://www.mobygames.com/game/3/wing-commander/). All 1,472 identified functions are accounted for.
+* [wc2-re](https://github.com/neuromancer/wc2-re): reconstruction of [Wing Commander II: Vengeance of the Kilrathi (1991)](https://www.mobygames.com/game/823/wing-commander-ii-vengeance-of-the-kilrathi/), still in progress.
+
+![wing commander cockpit combat screenshot](https://raw.githubusercontent.com/neuromancer/wc1-re/main/screenshots/cockpit-combat.png "350px") ![wing commander tiger's claw hangar screenshot](https://raw.githubusercontent.com/neuromancer/wc1-re/main/screenshots/tigers-claw-hangar.png "350px")
+
+![wing commander ii cockpit navigation screenshot](https://raw.githubusercontent.com/neuromancer/wc2-re/main/screenshots/cockpit-navigation.png "350px") ![wing commander ii external flight screenshot](https://raw.githubusercontent.com/neuromancer/wc2-re/main/screenshots/external-flight.png "350px")
